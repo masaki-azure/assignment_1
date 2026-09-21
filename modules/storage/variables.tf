@@ -20,3 +20,7 @@ variable "tags" {
   type    = map(string)
   default = {}
 }
+
+variable "name_suffix" {
+  type = string
+}

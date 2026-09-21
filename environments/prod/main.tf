@@ -31,6 +31,7 @@ module "security" {
 
 module "storage" {
   source                   = "../../modules/storage"
+  name_suffix              = random_string.suffix.result
   resource_group_name      = data.azurerm_resource_group.this.name
   location                 = data.azurerm_resource_group.this.location
   environment              = local.environment

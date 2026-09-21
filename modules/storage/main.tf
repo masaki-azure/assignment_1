@@ -5,7 +5,7 @@
 
 # Managed Identity + RBAC のみでアクセスさせるため、アカウントキーは無効化する。
 resource "azurerm_storage_account" "this" {
-  name                = "sthealth${var.environment}"
+  name                = "sthealth${var.environment}${var.name_suffix}"
   resource_group_name = var.resource_group_name
   location            = var.location
 
