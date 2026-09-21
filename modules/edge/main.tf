@@ -33,9 +33,9 @@ resource "azurerm_cdn_frontdoor_origin" "this" {
   cdn_frontdoor_origin_group_id = azurerm_cdn_frontdoor_origin_group.this.id
 
   host_name                      = var.origin_host_name
-  origin_host_header              = var.origin_host_name
+  origin_host_header             = var.origin_host_name
   certificate_name_check_enabled = true
-  https_port                      = 443
+  https_port                     = 443
 }
 
 resource "azurerm_cdn_frontdoor_route" "this" {
@@ -45,10 +45,10 @@ resource "azurerm_cdn_frontdoor_route" "this" {
   cdn_frontdoor_origin_ids      = [azurerm_cdn_frontdoor_origin.this.id]
 
   supported_protocols    = ["Http", "Https"]
-  patterns_to_match       = ["/*"]
-  forwarding_protocol     = "HttpsOnly"
-  https_redirect_enabled  = true
-  link_to_default_domain  = true
+  patterns_to_match      = ["/*"]
+  forwarding_protocol    = "HttpsOnly"
+  https_redirect_enabled = true
+  link_to_default_domain = true
 }
 
 # TODO: Container AppsはFront Doorをバイパスして直接アクセス可能な状態

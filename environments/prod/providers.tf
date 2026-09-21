@@ -11,8 +11,8 @@ terraform {
   backend "azurerm" {
     resource_group_name  = "rg-health-prod"
     storage_account_name = "sthealthtfstateprod"
-    container_name        = "tfstate"
-    key                    = "prod.terraform.tfstate"
+    container_name       = "tfstate"
+    key                  = "prod.terraform.tfstate"
   }
 }
 

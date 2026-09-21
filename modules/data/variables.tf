@@ -11,8 +11,8 @@ variable "environment" {
 }
 
 variable "sku_name" {
-  type        = string
-  default     = "GP_Standard_D2s_v3"
+  type    = string
+  default = "GP_Standard_D2s_v3"
 }
 
 variable "storage_mb" {

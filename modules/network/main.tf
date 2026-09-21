@@ -22,10 +22,10 @@ resource "azurerm_subnet" "containerapps" {
 }
 
 resource "azurerm_subnet" "private_endpoint" {
-  name                 = "subnet-private-endpoint"
-  resource_group_name  = var.resource_group_name
-  virtual_network_name = azurerm_virtual_network.this.name
-  address_prefixes     = var.subnet_pe_prefix
+  name                              = "subnet-private-endpoint"
+  resource_group_name               = var.resource_group_name
+  virtual_network_name              = azurerm_virtual_network.this.name
+  address_prefixes                  = var.subnet_pe_prefix
   private_endpoint_network_policies = "Disabled"
 }
 

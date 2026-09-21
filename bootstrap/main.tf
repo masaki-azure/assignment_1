@@ -25,13 +25,13 @@ resource "azurerm_resource_group" "this" {
 resource "azurerm_storage_account" "tfstate" {
   for_each = local.environments
 
-  name                 = "st${var.project}tfstate${each.key}"
-  resource_group_name  = azurerm_resource_group.this[each.key].name
-  location             = azurerm_resource_group.this[each.key].location
+  name                = "st${var.project}tfstate${each.key}"
+  resource_group_name = azurerm_resource_group.this[each.key].name
+  location            = azurerm_resource_group.this[each.key].location
 
-  account_tier              = "Standard"
-  account_replication_type  = "LRS"
-  min_tls_version           = "TLS1_2"
+  account_tier             = "Standard"
+  account_replication_type = "LRS"
+  min_tls_version          = "TLS1_2"
 
   shared_access_key_enabled = true
 
@@ -43,7 +43,7 @@ resource "azurerm_storage_account" "tfstate" {
 }
 
 resource "azurerm_storage_container" "tfstate" {
-  for_each = local.environments
+  for_each              = local.environments
   name                  = "tfstate"
   storage_account_id    = azurerm_storage_account.tfstate[each.key].id
   container_access_type = "private"
