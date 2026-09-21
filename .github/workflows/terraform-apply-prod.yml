@@ -1,0 +1,50 @@
+name: Terraform Apply (prod)
+
+# TODO: 本workflowはAzure OIDC認証情報が用意されて初めて動作する(動作未確認)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "environments/prod/**"
+      - "modules/**"
+  workflow_dispatch: {}
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  apply-prod:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Azure Login (OIDC)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.7.5"
+
+      - name: terraform init
+        working-directory: environments/prod
+        run: terraform init
+
+      - name: terraform plan
+        working-directory: environments/prod
+        run: terraform plan -no-color -out=tfplan
+        env:
+          TF_VAR_tenant_id: ${{ secrets.AZURE_TENANT_ID }}
+          TF_VAR_administrator_password: ${{ secrets.DB_ADMIN_PASSWORD }}
+
+      - name: terraform apply
+        working-directory: environments/prod
+        run: terraform apply -auto-approve tfplan

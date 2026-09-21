@@ -1,0 +1,4 @@
+tenant_id               = "00000000-0000-0000-0000-000000000000"
+administrator_login      = "psqladmin"
+
+# administrator_password はGitHub Secrets経由で渡す想定。ここにはコミットしない。

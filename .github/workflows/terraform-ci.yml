@@ -1,0 +1,53 @@
+name: Terraform CI (quality gate)
+
+# TODO: 本workflowはAzure OIDC認証情報が用意されて初めて動作する(動作未確認)
+
+on:
+  pull_request:
+    paths:
+      - "environments/**"
+      - "modules/**"
+
+jobs:
+  quality-gate:
+    name: quality-gate (${{ matrix.environment }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        environment: [dev, prod]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.7.5"
+
+      - name: terraform fmt
+        run: terraform fmt -check -recursive
+
+      - name: terraform init (backend無効・validate用)
+        working-directory: environments/${{ matrix.environment }}
+        run: terraform init -backend=false
+
+      - name: terraform validate
+        working-directory: environments/${{ matrix.environment }}
+        run: terraform validate
+
+      - name: Setup tflint
+        uses: terraform-linters/setup-tflint@v4
+
+      - name: tflint init
+        working-directory: environments/${{ matrix.environment }}
+        run: tflint --init
+
+      - name: tflint
+        working-directory: environments/${{ matrix.environment }}
+        run: tflint --recursive
+
+      - name: tfsec
+        uses: aquasecurity/tfsec-action@v1.0.3
+        with:
+          working_directory: environments/${{ matrix.environment }}
