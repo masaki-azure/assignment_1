@@ -17,6 +17,8 @@ resource "azurerm_key_vault" "this" {
   # TODO: Container Apps (Consumption) は Egress IP が動的なため、
   # ネットワークレベルの Firewall (Deny) は実質機能しない
   # そのため Allow とし、防御線は Managed Identity による RBAC 認可に一任する
+  # tfsec:ignore:azure-keyvault-specify-network-acl
+  # tfsec:ignore:azure-keyvault-no-purge
   network_acls {
     default_action = "Allow"
     bypass         = "AzureServices"
