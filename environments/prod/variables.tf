@@ -1,8 +1,3 @@
-variable "location" {
-  type    = string
-  default = "japaneast"
-}
-
 variable "tenant_id" {
   type = string
 }
