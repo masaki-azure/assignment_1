@@ -5,6 +5,7 @@ on:
     paths:
       - "environments/**"
       - "modules/**"
+  workflow_dispatch:
 
 jobs:
   quality-gate:
