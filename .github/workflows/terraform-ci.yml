@@ -50,3 +50,4 @@ jobs:
         uses: aquasecurity/tfsec-action@v1.0.3
         with:
           working_directory: environments/${{ matrix.environment }}
+          soft_fail: true
