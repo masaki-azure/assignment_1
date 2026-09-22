@@ -33,7 +33,7 @@ resource "azurerm_storage_account" "tfstate" {
   account_replication_type = "LRS"
   min_tls_version          = "TLS1_2"
 
-  shared_access_key_enabled = true
+  shared_access_key_enabled = false
 
   tags = merge(var.common_tags, {
     environment = each.key
